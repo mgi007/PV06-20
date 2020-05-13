@@ -1,0 +1,50 @@
+@startuml
+
+actor cliente
+
+
+cliente -> InterfazPedido : 1. Realizar pedido
+
+InterfazPedido -> ControladorPedido: 1.1 Iniciar pedido
+
+ControladorPedido -> ControladorProductos : 1.1.2 Consultar productos existentes
+
+ControladorProductos -> ControladorPedido : 1.1.3 Listar Productos
+
+cliente -> InterfazPedido : 2. Seleccionar Producto
+
+InterfazPedido -> ControladorProductos : 2.1 Notifica selección del producto
+
+ControladorProductos -> InfoProductos : 2.1.1 Consulta datos del producto
+
+InfoProductos ->  ControladorProductos : 2.1.2 Devuelve lista de productos
+
+ControladorProductos -> InterfazPedido : 2.1.3 Mostrar datos producto
+
+cliente -> InterfazPedido : 3. Confirmar producto
+
+InterfazPedido -> ControladorProductos : 3.1 Consultar si el producto sigue disponible
+
+
+
+
+
+
+
+
+autonumber
+
+A -> B: step
+
+activate B
+B -> C: step
+
+activate C
+C --> C: action
+C -> B: step
+deactivate C
+
+B -> A: step
+deactivate B
+
+@enduml
