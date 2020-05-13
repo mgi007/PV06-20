@@ -1,1 +1,1 @@
-[Diagrama 1](Diagrama_1.svg)
+[Diagrama 1](GestiosDePedidos.puml)
