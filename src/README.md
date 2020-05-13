@@ -1,1 +1,1 @@
-[Diagrama 1](GestiosDePedidos.png)
+[Diagrama 1](GestionDePedidos.png)
