@@ -1,1 +1,1 @@
-[Diagrama 1](GestiosDePedidos.puml)
+[Diagrama 1](GestiosDePedidos.png)
