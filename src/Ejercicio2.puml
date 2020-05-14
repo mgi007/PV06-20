@@ -1,0 +1,110 @@
+@startuml
+
+actor cliente
+
+ACTIVATE Pago
+
+cliente -> Pago : 1. Realizar pago
+
+ACTIVATE Pedidos
+
+loop SeleccionarOtroPedido
+
+Pago -> Pedidos : 1.1 Consultar pedidos
+
+Pedidos --> Pago : 1.2 Mostrar pedidos
+
+cliente -> Pago : 2. Seleccionar pedido
+
+Pago -> Pedidos : 2.1 Consultar datos pedido
+
+Pedidos --> Pago : 2.2 Mostrar datos pedido
+
+alt ConfirmarSelección
+
+cliente -> Pago : 3. Confirmar selección de pedido
+
+Pago -> Pedidos : 3.1 Marcar el pedido como seleccionado
+
+else CancelarSelección
+
+cliente -> Pago : 3. Cancelar selección de pedido
+
+end
+
+alt IrAlPago
+
+cliente -> Pedidos : 4. Ir al pago de los pedidos seleccionados (dejar de seleccionar)
+
+end
+
+end
+
+Pago -> Pedidos : 4.1 Consultar pedidos seleccionados
+
+Pedidos --> Pago : 4.2 Mostrar info pedidos seleccionados
+
+Pago --> Pago : 5. Pedir método de pago
+
+cliente -> Pago : 5.1 Seleccionar método de pago
+
+alt PagoConTarjeta 
+
+loop DatosIncorrectos
+
+cliente -> Pago : 6. Introducir datos
+
+actor banco
+
+ACTIVATE banco
+
+Pago -> banco : 6.1 Consultar datos
+
+alt DatosCorrectos
+
+banco --> Pago : 6.2A Confirmar datos
+
+else DatosIncorrectos
+
+banco --> Pago : 6.2B Denegar datos (datos incorrectos) 
+
+end
+
+end
+
+Pago -> banco : 6.3 Realizar pago
+
+banco --> Pago : 6.3.1 Devuelve datos de pago
+
+DESTROY banco
+
+Pago --> Pago : 6.4 Registra pago (guarda info)
+
+Pago --> Pedidos : 6.5 Marcar pedidos seleccionados como pagados
+
+Pago --> Pago : 6.6 Mostrar datos de pago (descargables)
+
+alt DescargarFactura
+
+cliente -> Pago : 6.7 Descargar factura
+
+end
+
+else PagoEfectivo
+
+cliente -> Pago : 6. Realizar pago en efectivo
+
+Pago -> Pedidos : 6.1 Marcar pedidos seleccionados como pagados
+
+Pago --> Pago : 6.2 Registra el pago
+
+Pago --> Pago : 6.3 Devuelve las vueltas y la info del pago
+
+cliente -> Pago : 6.4 Recoger vueltas e info del pago
+
+end
+
+DESTROY Pedidos
+
+DESTROY Pago
+@enduml

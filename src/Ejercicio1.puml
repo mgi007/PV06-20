@@ -1,0 +1,93 @@
+@startuml
+
+actor cliente
+
+ACTIVATE Pedido
+
+cliente -> Pedido : 1. Realizar pedido
+
+Pedido --> Pedido : 1.1 Pedir datos de cliente
+
+loop DatosNoValidos
+
+alt clienteExistente
+
+cliente -> Pedido : 2A Introducir datos
+
+Pedido --> Pedido : 2A.1 Comprobar datos cliente
+
+else cliente_NO_Existente
+
+cliente -> Pedido : 2B. Introducir nuevos datos
+
+Pedido --> Pedido : 2B.1 Comprobar que los datos son válidos
+
+end
+
+end
+
+ACTIVATE Productos
+
+loop SeguirComprando
+
+Pedido -> Productos : 2.2 Consultar productos disponibles
+
+Productos --> Pedido : 2.2.1 Listar Productos
+
+cliente -> Pedido : 3. Seleccionar Producto
+
+Pedido -> Productos : 3.1 Notifica selección del producto
+
+Productos --> Pedido : 3.1.1 Mostrar datos producto
+
+cliente -> Pedido : 4. Confirmar producto
+
+Pedido -> Productos : 4.1 Consultar si el producto sigue disponible
+
+alt ProductoDisponible
+
+Productos --> Pedido : 4.1.2A Añadir producto al pedido
+
+else Producto_NO_Disponible
+
+Productos --> Pedido : 4.1.2B Comunica que el producto ya no esta disponible
+
+end
+
+alt TerminarDeComprar
+
+cliente -> Pedido : 5. Terminar de comprar
+
+end
+
+end
+
+Pedido -> Pedido : 5.1. Muestra datos del pedido
+
+alt ConfirmarPedido
+
+cliente -> Pedido : 6. Confirmar pedido
+
+Pedido -> Productos : 6.1 Marcar el producto como vendido
+
+DESTROY Productos
+
+Pedido --> Pedido : 6.2 Registrar pedido
+
+Pedido --> Pedido : 6.3 Mostrar datos de compra (descargables)
+
+alt DescargarFactura
+
+cliente -> Pedido : 7. Descargar datos de compra (descargables)
+
+end
+
+else CancelarPedido
+
+cliente -> Pedido : 6.B Cancelar pedido
+
+end
+
+DESTROY Pedido
+
+@enduml
