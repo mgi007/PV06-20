@@ -1,4 +1,4 @@
-PCV06-10
+PCV06-20
 ===
   
 **Ejercicio 1 : Caso 1 modificado con notación a objetos**
